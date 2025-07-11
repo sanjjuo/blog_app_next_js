@@ -1,8 +1,10 @@
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Fira_Code, Jomhuria } from "next/font/google";
 import "./globals.css";
+import { Provider } from "./provider";
 
 const firaCode = Fira_Code({
   variable: "--font-fira-code",
@@ -36,7 +38,8 @@ export default function RootLayout({
             "antialiased"
           )}
         >
-          {children}
+          <Provider>{children}</Provider>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

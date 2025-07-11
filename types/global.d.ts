@@ -7,10 +7,12 @@ interface EditorOption {
   isActive: (editor: Editor) => boolean;
 }
 
+
 interface BlogPostFormValues {
+  id?: number;
   image?: File;
   title: string;
-  skills: number[];
+  skills: string[];
   visibility: "public" | "private";
   content: string;
 }

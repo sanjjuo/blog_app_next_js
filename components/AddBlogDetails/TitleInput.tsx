@@ -1,24 +1,35 @@
-import { BlogPostFormValues } from "@/types/global";
-import { UseFormRegister } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 
-type props = {
-  register: UseFormRegister<BlogPostFormValues>;
-  error?: string;
-};
-
-const TitleInput = ({ register, error }: props) => {
+const TitleInput = () => {
+  const { control } = useFormContext();
   return (
     <div>
-      <Label htmlFor="title">Project Title</Label>
-      <Input
-        {...register("title")}
-        type="text"
-        placeholder="Enter your project title"
-        className="h-12"
+      <FormField
+        control={control}
+        name="title"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Project Title</FormLabel>
+            <FormControl>
+              <Input
+                type="text"
+                placeholder="Enter your project title"
+                className="h-12"
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
       />
-      {error && <p className="text-red-600">{error}</p>}
     </div>
   );
 };

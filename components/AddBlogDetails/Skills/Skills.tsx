@@ -1,27 +1,42 @@
-import React, { SetStateAction } from "react";
-import SkillsDropdown from "./SkillsDropdown";
-import SkillsDisplayed from "./SkillsDisplayed";
-import { Control } from "react-hook-form";
-import { BlogPostFormValues } from "@/types/global";
+import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import SkillsAddModal from "./SkillsAddModal";
+import { X } from "lucide-react";
 
-const Skills = ({
-  selected,
-  setSelected,
-  control,
-  error,
-}: {
-  selected: number[];
-  setSelected: React.Dispatch<SetStateAction<number[]>>;
-  control: Control<BlogPostFormValues>;
-  error?: string;
-}) => {
+const Skills = () => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+  const skills = useWatch({
+    control,
+    name: "skills",
+  });
+
+  const { remove } = useFieldArray({
+    control,
+    name: "skills",
+  });
   return (
-    <div className="grid grid-cols-5 gap-5">
-      <div className="col-span-2">
-        <SkillsDropdown selected={selected} setSelected={setSelected} />
-      </div>
-      <div className="col-span-3">
-        <SkillsDisplayed selected={selected} />
+    <div>
+      <SkillsAddModal />
+      <div className="mt-3">
+        {Array.isArray(skills) && skills.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {skills.map((skill, index) => (
+              <div
+                key={index}
+                className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full flex items-center gap-1"
+              >
+                {skill}
+                <button onClick={() => remove(index)} className="ml-1">
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500">No skills added yet.</p>
+        )}
       </div>
     </div>
   );
